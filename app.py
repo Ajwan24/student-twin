@@ -34,14 +34,7 @@ def analyze_student(data):
 
     score = max(0, min(100, score))
 
-    df = pd.DataFrame([{
-        "study": study,
-        "sleep": sleep,
-        "stress": stress,
-        "focus": focus
-    }])
-
-    avg_pandas = df.mean().mean()
+avg_pandas = (study + sleep + stress + focus) / 4
 
     arr = np.array([study, sleep, focus])
     avg_numpy = np.mean(arr)
