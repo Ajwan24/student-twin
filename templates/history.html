@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>History</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+  --primary:#4facfe;
+  --secondary:#00c6ff;
+}
+
+body{
+  font-family: 'Poppins', sans-serif;
+  background:#f5f7fb;
+  padding:30px;
+}
+
+/* ===== Top Bar (زر الباك نفس اللوق آوت) ===== */
+.top-bar{
+  width:95%;
+  margin:auto;
+  text-align:right;
+  margin-bottom:20px;
+}
+
+.logout-btn{
+  padding:10px 20px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  color:white;
+  font-size:14px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.logout-btn:hover{
+  transform:scale(1.05);
+}
+
+/* ===== Title ===== */
+h2{
+  margin-bottom:20px;
+}
+
+/* ===== Cards ===== */
+.card{
+  background:white;
+  padding:25px;
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.05);
+  margin-bottom:20px;
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+}
+
+/* ===== Table ===== */
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th{
+  background:#f1f5ff;
+  padding:12px;
+}
+
+td{
+  padding:12px;
+  border-bottom:1px solid #eee;
+}
+
+tr:hover{
+  background:#f9fbff;
+}
+
+/* ===== Chart ===== */
+canvas{
+  margin-top:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- زر الباك (نفس اللوق آوت) -->
+<div class="top-bar">
+  <button class="logout-btn" onclick="goBack()">
+    ⬅️ Back to Dashboard
+  </button>
+</div>
+
+<h2>📊 Student History</h2>
+
+<div class="card">
+<table>
+<tr>
+<th>📚 Study</th>
+<th>😴 Sleep</th>
+<th>😰 Stress</th>
+<th>📊 Score</th>
+</tr>
+
+{% for row in data %}
+<tr>
+<td>{{ row.study }}</td>
+<td>{{ row.sleep }}</td>
+<td>{{ row.stress }}</td>
+<td><b>{{ row.score }}</b></td>
+</tr>
+{% endfor %}
+
+</table>
+</div>
+
+<div class="card">
+<h3>📈 Performance Over Time</h3>
+<canvas id="chart"></canvas>
+</div>
+
+<!-- data -->
+<script id="historyData" type="application/json">
+{{ data | tojson }}
+</script>
+
+<script>
+function goBack(){
+  window.location.href = "/";
+}
+
+let data = JSON.parse(
+  document.getElementById("historyData").textContent
+);
+
+let labels = data.map((_, i) => "Day " + (i+1));
+let scores = data.map(d => d.score);
+
+new Chart(document.getElementById("chart"), {
+    type: "line",
+    data: {
+        labels: labels,
+        datasets: [{
+            label: "Score",
+            data: scores,
+            borderWidth: 3,
+            tension: 0.4,
+            fill: true,
+            backgroundColor: "rgba(79,172,254,0.1)",
+            borderColor: "#4facfe"
+        }]
+    },
+    options:{
+      plugins:{
+        legend:{display:true}
+      },
+      scales:{
+        y:{
+          beginAtZero:true,
+          max:100
+        }
+      }
+    }
+});
+</script>
+
+</body>
+</html>

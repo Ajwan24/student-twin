@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Register - Digital Student Twin</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* ========================================= */
+/* 👩‍💻 STUDENT 1: GENERAL DESIGN (UI/UX) */
+/* ========================================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: linear-gradient(135deg, #eef5ff, #f9fbff);
+  position:relative;
+  overflow:hidden;
+}
+
+/* ✨ Soft background */
+body::before,
+body::after{
+  content:"";
+  position:absolute;
+  width:400px;
+  height:400px;
+  border-radius:50%;
+  filter:blur(100px);
+  z-index:0;
+}
+
+body::before{
+  background:#dbeafe;
+  top:-100px;
+  left:-100px;
+}
+
+body::after{
+  background:#e0e7ff;
+  bottom:-100px;
+  right:-100px;
+}
+
+/* Card */
+.card{
+  position:relative;
+  z-index:1;
+  width:380px;
+  padding:35px;
+  border-radius:25px;
+  background:white;
+  box-shadow:0 10px 40px rgba(0,0,0,0.05);
+  text-align:center;
+  animation:fadeUp 0.6s ease;
+}
+
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* ========================================= */
+/* 👩‍💻 STUDENT 2: FORM ELEMENTS */
+/* ========================================= */
+
+/* Titles */
+.title{
+  font-size:22px;
+  font-weight:600;
+  color:#4facfe;
+}
+
+.subtitle{
+  font-size:14px;
+  margin-bottom:20px;
+  color:#777;
+}
+
+/* Inputs */
+input{
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  border-radius:12px;
+  border:1px solid #eee;
+  background:#f9fafc;
+  outline:none;
+}
+
+input:focus{
+  border-color:#4facfe;
+}
+
+/* Button */
+button{
+  width:100%;
+  padding:14px;
+  margin-top:10px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(135deg,#4facfe,#6a5af9);
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  transform:scale(1.03);
+}
+
+/* ========================================= */
+/* 👩‍💻 STUDENT 3: USER EXPERIENCE */
+/* ========================================= */
+
+/* Error message */
+.error{
+  background:#ffe5e5;
+  color:#d33;
+  padding:10px;
+  border-radius:10px;
+  margin-bottom:10px;
+  font-size:14px;
+}
+
+/* Switch between login/register */
+.switch{
+  margin-top:15px;
+  font-size:14px;
+}
+
+.switch a{
+  color:#4facfe;
+  text-decoration:none;
+  font-weight:500;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ========================================= -->
+<!-- 👩‍💻 STUDENT 2: FORM STRUCTURE -->
+<!-- ========================================= -->
+<form class="card" method="POST" autocomplete="off">
+
+<div class="title">🧠 Digital Student Twin</div>
+<div class="subtitle">Create Your Account</div>
+
+<!-- 👩‍💻 STUDENT 3: ERROR HANDLING -->
+{% if error %}
+<div class="error">{{ error }}</div>
+{% endif %}
+
+<input name="username"
+       placeholder="👤 Username"
+       autocomplete="off"
+       required>
+
+<input name="password"
+       type="password"
+       placeholder="🔒 Password"
+       autocomplete="new-password"
+       required>
+
+<button type="submit">🚀 Register</button>
+
+<div class="switch">
+Already have an account? <a href="/login">Login</a>
+</div>
+
+</form>
+
+<script>
+
+/* ========================================= */
+/* 👩‍💻 STUDENT 3: UX IMPROVEMENT */
+/* Prevent autofill issues */
+/* ========================================= */
+
+window.onload = function(){
+  document.querySelector("form").reset();
+
+  // Force clear autofill
+  document.querySelectorAll("input").forEach(input=>{
+    input.value = "";
+  });
+}
+
+</script>
+
+</body>
+</html>
