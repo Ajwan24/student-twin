@@ -34,7 +34,7 @@ def analyze_student(data):
 
     score = max(0, min(100, score))
 
-avg_pandas = (study + sleep + stress + focus) / 4
+    avg_pandas = (study + sleep + stress + focus) / 4
 
     arr = np.array([study, sleep, focus])
     avg_numpy = np.mean(arr)
