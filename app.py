@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify, render_template, redirect, session
 import numpy as np
-import pandas as pd
 import json
 
 app = Flask(__name__)
