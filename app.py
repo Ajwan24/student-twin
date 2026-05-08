@@ -39,18 +39,24 @@ def analyze_student(data):
     avg_numpy = np.mean(arr)
     std_dev = np.std(arr)
 
-    try:
-        with open("students.json", "a") as f:
-            json.dump({
-                "study": study,
-                "sleep": sleep,
-                "stress": stress,
-                "focus": focus,
-                "score": score
-            }, f)
-            f.write("\n")
-    except:
-        pass
+    # Save History
+try:
+    username = session["user"]
+
+    with open("students.json", "a") as f:
+        json.dump({
+            "user": username,
+            "study": study,
+            "sleep": sleep,
+            "stress": stress,
+            "focus": focus,
+            "score": score
+        }, f)
+
+        f.write("\n")
+
+except:
+    print("Error saving file")
 
     return {
         "score": int(score),
@@ -195,16 +201,25 @@ def analyze():
 
 @app.route("/history")
 def history():
+
+    if "user" not in session:
+        return redirect("/login")
+
+    username = session["user"]
     data = []
+
     try:
         with open("students.json", "r") as f:
             for line in f:
-                data.append(json.loads(line))
+                record = json.loads(line)
+
+                # ✅ يجيب بيانات اليوزر الحالي فقط
+                if record.get("user") == username:
+                    data.append(record)
+
     except:
         pass
 
     return render_template("history.html", data=data)
-
-
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
